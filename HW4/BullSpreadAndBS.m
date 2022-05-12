@@ -1,0 +1,23 @@
+clear;
+c1 = 3;
+c2 = 1;
+X1 = 100;
+X2 = 105;
+r = 0.02; T1 = 0.05; T2 = 0.1; sigma = 0.2;
+S0 = 90:1:115;
+[m,n] = size(S0);
+for i=1:n;
+    [C11(i),P1(i)] = fcn_bs(S0(i),X1,r,T1,sigma);
+    [C21(i),P2(i)] = fcn_bs(S0(i),X2,r,T1,sigma);
+    [C12(i),P1(i)] = fcn_bs(S0(i),X1,r,T2,sigma);
+    [C22(i),P2(i)] = fcn_bs(S0(i),X2,r,T2,sigma);
+end
+plot(S0,max(S0-X1,0)-max(S0-X2,0)-c1+c2);
+hold on;
+plot(S0,C11-C21-c1+c2,'--');
+plot(S0,C12-C22-c1+c2,'.');
+grid on;
+title('Bull Spread');
+xlabel('S0');
+ylabel('Profit');
+legend({'t = 0','t = 0.05','t = 0.1'},'Location','SouthEast');
